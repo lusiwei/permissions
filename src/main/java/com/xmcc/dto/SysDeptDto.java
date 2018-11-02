@@ -18,13 +18,19 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SysDeptDto implements Serializable {
+
     private Integer id;
+
     @NotBlank(message = "部门名不能为空")
-    @Length(min = 2, max = 10)
+    @Length(min = 2, max = 15, message = "部门名称需要在2,15 个字符之间")
+
     private String name;
-    private Integer parentId=0;
+
+    private Integer parentId = 0;
+
     @NotNull(message = "部门优先级不能为空")
     private Integer seq;
-    @NotBlank(message = "备注不能为空")
+
+    @Length(max = 150, message = "备注的长度不能超过150个字")
     private String remark;
 }

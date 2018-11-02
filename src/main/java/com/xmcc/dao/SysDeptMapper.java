@@ -2,6 +2,8 @@ package com.xmcc.dao;
 
 import com.xmcc.pojo.SysDept;
 
+import java.util.List;
+
 public interface SysDeptMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,6 @@ public interface SysDeptMapper {
     int updateByPrimaryKeySelective(SysDept record);
 
     int updateByPrimaryKey(SysDept record);
+
+    List<SysDept> queryAllSysDept();
 }

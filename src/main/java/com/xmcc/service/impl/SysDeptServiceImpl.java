@@ -2,6 +2,7 @@ package com.xmcc.service.impl;
 
 import com.xmcc.dao.SysDeptMapper;
 import com.xmcc.dto.SysDeptDto;
+import com.xmcc.exception.ParamException;
 import com.xmcc.pojo.SysDept;
 import com.xmcc.service.SysDeptService;
 import com.xmcc.util.BeanValidator;
@@ -26,6 +27,9 @@ public class SysDeptServiceImpl implements SysDeptService {
     public void insert(SysDeptDto sysDeptDto) {
         //验证参数
         BeanValidator.check(sysDeptDto);
+        if (checkDeptIsRepeat(sysDeptDto.getParentId(), sysDeptDto.getName(), sysDeptDto.getId())) {
+            throw new ParamException("同一层级下不能有相同的部门");
+        }
         //获取parentId
         Integer parentId = sysDeptDto.getParentId();
         //构造这模式把dto数据设置到pojo
@@ -55,4 +59,13 @@ public class SysDeptServiceImpl implements SysDeptService {
         }
         return sysDept.getLevel();
     }
+
+    /**
+     * 检查部门是否重复,不同部门的子部门下可以有相同部门,同一部门下的子部门不能相同
+     */
+    private boolean checkDeptIsRepeat(Integer parentId, String deptName, Integer DeptId) {
+        //TODO:
+        return true;
+    }
+
 }
