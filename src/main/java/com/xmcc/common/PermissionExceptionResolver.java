@@ -25,17 +25,19 @@ public class PermissionExceptionResolver implements HandlerExceptionResolver {
         log.info(url);
         String message;
         if (e instanceof PermissionException || e instanceof ParamException) {
+            log.warn("自定义异常");
             message =e.getMessage();
         }else {
+            e.printStackTrace();
             message = "系统繁忙";
         }
         if (url.endsWith(".json")) {
-            log.info("json exception");
+            log.warn("json exception");
             viewName = "jsonView";
         } else if (url.endsWith(".page")) {
-            log.info("permissions page exception");
+            log.warn("permissions page exception");
         } else {
-            log.info("unknown exception");
+            log.warn("unknown exception");
         }
         ResultJson resultJson = ResultJson.failed(message);
         modelAndView = new ModelAndView(viewName, resultJson.toMap());

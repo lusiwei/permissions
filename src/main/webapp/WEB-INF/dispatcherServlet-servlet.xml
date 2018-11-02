@@ -15,6 +15,12 @@
     <context:annotation-config/>
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.xmcc.controller"></context:component-scan>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.xmcc.interceptor.TestInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
     <!--自定义异常处理器-->
     <bean class="com.xmcc.common.PermissionExceptionResolver"/>
     <!--视图渲染 可以判断用什么来解析返回值-->
