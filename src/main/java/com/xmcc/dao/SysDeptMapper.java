@@ -1,6 +1,7 @@
 package com.xmcc.dao;
 
 import com.xmcc.pojo.SysDept;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface SysDeptMapper {
     int updateByPrimaryKey(SysDept record);
 
     List<SysDept> queryAllSysDept();
+
+    SysDept checkDeptIsRepeat(@Param("parentId") Integer parentId, @Param("name") String deptName, @Param("id") Integer deptId);
+
+    int updateChildLevel(@Param("oldLevel")String oldLevel, @Param("newLevel") String newLevel, @Param("id") Integer id);
 }

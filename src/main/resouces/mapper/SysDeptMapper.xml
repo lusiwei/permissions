@@ -143,4 +143,17 @@
     <include refid="Base_Column_List"/>
     from sys_dept
   </select>
+  <select id="checkDeptIsRepeat" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sys_dept
+    where parent_id=#{parentId} and name=#{name}
+    <if test="id != null">
+      and id!=#{id}<!--排除自己-->
+    </if>
+  </select>
+
+  <update id="updateChildLevel" >
+     UPDATE sys_dept SET LEVEL=REPLACE(LEVEL,#{oldLevel},#{newLevel}) WHERE LEVEL LIKE concat(#{oldLevel},"-",#{id},"-%") or parent_id=#{id}
+  </update>
 </mapper>

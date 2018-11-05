@@ -26,6 +26,7 @@ public class PermissionExceptionResolver implements HandlerExceptionResolver {
         String message;
         if (e instanceof PermissionException || e instanceof ParamException) {
             log.warn("自定义异常");
+            e.printStackTrace();
             message =e.getMessage();
         }else {
             e.printStackTrace();

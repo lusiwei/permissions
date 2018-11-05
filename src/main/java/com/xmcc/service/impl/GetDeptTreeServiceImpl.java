@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -59,8 +61,10 @@ public class GetDeptTreeServiceImpl implements GetDeptTreeService {
                 rootDeptList.add(deptLevelDto);
             }
         }
+        //排序
+        sort(rootDeptList);
         //拿到rootList之后,遍历每个根dto对象,每个对象定义一个list把子部门放进去
-        assignValue(rootDeptList,dtoList);
+        assignValue(rootDeptList, dtoList);
         return rootDeptList;
     }
 
@@ -78,9 +82,24 @@ public class GetDeptTreeServiceImpl implements GetDeptTreeService {
             }
             deptLevelDto.setDeptLevelDtoList(levelDtos);
             if (!CollectionUtils.isEmpty(levelDtos)) {
-                assignValue(levelDtos,dtoList);
+                //排序
+                sort(levelDtos);
+                //递归
+                assignValue(levelDtos, dtoList);
             }
         }
 
+    }
+
+    /**
+     * 通过比较器排序
+     */
+    public void sort(List<DeptLevelDto> dtoList) {
+        Collections.sort(dtoList, new Comparator<DeptLevelDto>() {
+            @Override
+            public int compare(DeptLevelDto o1, DeptLevelDto o2) {
+                return o1.getSeq() - o2.getSeq();
+            }
+        });
     }
 }

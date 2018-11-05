@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 
 /**
  * @Author: lusiwei
@@ -43,5 +45,17 @@ public class SysDeptController {
         /* return ResultJson.success(sysTreeService.sysDeptTree()); *///老师的方法
         //自己的方法
         return ResultJson.success(getDeptTreeService.getDeptTree());
+    }
+
+    @RequestMapping("update.json")
+    @ResponseBody
+    public ResultJson update(SysDeptDto sysDeptDto) {
+        sysDeptService.update(sysDeptDto);
+        return ResultJson.success();
+    }
+
+    @RequestMapping("dept.page")
+    public String deptPage(){
+        return "dept";
     }
 }

@@ -9,4 +9,5 @@ import com.xmcc.dto.SysDeptDto;
  */
 public interface SysDeptService {
     void insert(SysDeptDto sysDeptDto);
+    void update(SysDeptDto sysDept);
 }

@@ -1,10 +1,15 @@
 package com.xmcc.pojo;
 
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Date;
 
 @ToString
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class SysUser {
     private Integer id;
 
