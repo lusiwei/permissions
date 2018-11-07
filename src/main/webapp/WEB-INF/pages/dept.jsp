@@ -42,16 +42,18 @@
                         <div class="col-xs-6">
                             <div class="dataTables_length" id="dynamic-table_length"><label>
                                 展示
-                                <select id="pageSize" name="dynamic-table_length" aria-controls="dynamic-table" class="form-control input-sm">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
+                                <select id="pageSize" name="dynamic-table_length" aria-controls="dynamic-table"
+                                        class="form-control input-sm">
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
                                 </select> 条记录 </label>
                             </div>
                         </div>
                     </div>
-                    <table id="dynamic-table" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid"
+                    <table id="dynamic-table" class="table table-striped table-bordered table-hover dataTable no-footer"
+                           role="grid"
                            aria-describedby="dynamic-table_info" style="font-size:14px">
                         <thead>
                         <tr role="row">
@@ -73,7 +75,25 @@
                             <th class="sorting_disabled" rowspan="1" colspan="1" aria-label=""></th>
                         </tr>
                         </thead>
-                        <tbody id="userList"></tbody>
+                        <tbody id="userList">
+                        <tr role="row" class="user-name odd" data-id="{{id}}"><!--even -->
+                            <td><a href="#" class="user-edit" data-id="{{id}}">{{username}}</a></td>
+                            <td>{{showDeptName}}</td>
+                            <td>{{mail}}</td>
+                            <td>{{telephone}}</td>
+                            <td>{{#bold}}{{showStatus}}{{/bold}}</td> <!-- 此处套用函数对status做特殊处理 -->
+                            <td>
+                                <div class="hidden-sm hidden-xs action-buttons">
+                                    <a class="green user-edit" href="#" data-id="{{id}}">
+                                        <i class="ace-icon fa fa-pencil bigger-100"></i>
+                                    </a>
+                                    <a class="red user-acl" href="#" data-id="{{id}}">
+                                        <i class="ace-icon fa fa-flag bigger-100"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
                     </table>
                     <div class="row" id="userPage">
                     </div>
@@ -94,15 +114,18 @@
             </tr>
             <tr>
                 <td><label for="deptName">名称</label></td>
-                <td><input type="text" name="name" id="deptName" value="" class="text ui-widget-content ui-corner-all"></td>
+                <td><input type="text" name="name" id="deptName" value="" class="text ui-widget-content ui-corner-all">
+                </td>
             </tr>
             <tr>
                 <td><label for="deptSeq">顺序</label></td>
-                <td><input type="text" name="seq" id="deptSeq" value="1" class="text ui-widget-content ui-corner-all"></td>
+                <td><input type="text" name="seq" id="deptSeq" value="1" class="text ui-widget-content ui-corner-all">
+                </td>
             </tr>
             <tr>
                 <td><label for="deptRemark">备注</label></td>
-                <td><textarea name="remark" id="deptRemark" class="text ui-widget-content ui-corner-all" rows="3" cols="25"></textarea></td>
+                <td><textarea name="remark" id="deptRemark" class="text ui-widget-content ui-corner-all" rows="3"
+                              cols="25"></textarea></td>
             </tr>
         </table>
     </form>
@@ -119,15 +142,18 @@
             <tr>
                 <td><label for="userName">名称</label></td>
                 <input type="hidden" name="id" id="userId"/>
-                <td><input type="text" name="username" id="userName" value="" class="text ui-widget-content ui-corner-all"></td>
+                <td><input type="text" name="username" id="userName" value=""
+                           class="text ui-widget-content ui-corner-all"></td>
             </tr>
             <tr>
                 <td><label for="userMail">邮箱</label></td>
-                <td><input type="text" name="mail" id="userMail" value="" class="text ui-widget-content ui-corner-all"></td>
+                <td><input type="text" name="mail" id="userMail" value="" class="text ui-widget-content ui-corner-all">
+                </td>
             </tr>
             <tr>
                 <td><label for="userTelephone">电话</label></td>
-                <td><input type="text" name="telephone" id="userTelephone" value="" class="text ui-widget-content ui-corner-all"></td>
+                <td><input type="text" name="telephone" id="userTelephone" value=""
+                           class="text ui-widget-content ui-corner-all"></td>
             </tr>
             <tr>
                 <td><label for="userStatus">状态</label></td>
@@ -141,11 +167,20 @@
             </tr>
             <tr>
                 <td><label for="userRemark">备注</label></td>
-                <td><textarea name="remark" id="userRemark" class="text ui-widget-content ui-corner-all" rows="3" cols="25"></textarea></td>
+                <td><textarea name="remark" id="userRemark" class="text ui-widget-content ui-corner-all" rows="3"
+                              cols="25"></textarea></td>
             </tr>
         </table>
     </form>
 </div>
+<nav aria-label="...">
+    <ul class="pager">
+        <li><a href="#" id="home">首页</a></li>
+        <li><a href="#" id="prev">上一页</a></li>
+        <li><a href="#" id="next">下一页</a></li>
+        <li><a href="#" id="last">尾页</a></li>
+    </ul>
+</nav>
 
 <script id="deptListTemplate" type="x-tmpl-mustache">
 <ol class="dd-list">
@@ -166,6 +201,8 @@
         </li>
     {{/deptList}}
 </ol>
+
+
 </script>
 <script id="userListTemplate" type="x-tmpl-mustache">
 {{#userList}}
@@ -187,16 +224,19 @@
     </td>
 </tr>
 {{/userList}}
+
 </script>
 
 <script type="application/javascript">
-    $(function() {
-
+    $(function () {
         let deptList; // 存储树形部门列表
         let deptMap = {}; // 存储map格式的部门信息
         let userMap = {}; // 存储map格式的用户信息
         let optionStr = "";
         let lastClickDeptId = -1;
+        let curPage = 1;
+        let pageSize = 5;
+        let pageCount;
 
         let deptListTemplate = $('#deptListTemplate').html();
         Mustache.parse(deptListTemplate);
@@ -208,13 +248,14 @@
         function loadDeptTree() {
             $.ajax({
                 url: "/sys/dept/treeDept.json",
-                success : function (result) {
+                success: function (result) {
                     if (result.result) {
                         deptList = result.data;
                         let rendered = Mustache.render(deptListTemplate, {deptList: result.data});
                         $("#deptList").html(rendered);
                         recursiveRenderDept(result.data);
                         bindDeptClick();
+                        loadUser();
                     } else {
                         showMessage("加载部门列表", result.msg, false);
                     }
@@ -222,24 +263,104 @@
             })
         }
 
+        function loadUser() {
+            $.ajax({
+                url: "/sys/user/queryAllUser.json",
+                data: {"curPage": curPage, "pageSize": pageSize},
+                success: function (result) {
+                    if (result.result) {
+                        console.log(result.data)
+                        let pageDto = result.data;
+                        pageCount = pageDto.pageCount;
+                        let userList = result.data.sysUsers;
+                        if (userList && userList.length > 0) {
+                            let str = "";
+                            for (let i of userList) {
+                                // let name = deptMap[i.deptId].name;
+                                str += "<tr role=\"row\" class=\"user-name odd\" data-id=\"" + i.id + "\">\n" +
+                                    "                            <td><a href=\"#\" class=\"user-edit\">" + i.username + "</a></td>\n" +
+                                    "                            <td>" + deptMap[i.deptId].name + "</td>" +
+                                    "                            <td>" + i.mail + "</td>\n" +
+                                    "                            <td>" + i.telephone + "</td>\n" +
+                                    "                            <td>" +
+                                    (function () {
+                                        return i.status === 0 ? '冻结' : i.status === 1 ? '正常' : "离职";
+                                    })()
+                                    + "</td> <!-- 此处套用函数对status做特殊处理 -->\n" +
+                                    "                            <td>\n" +
+                                    "                                <div class=\"hidden-sm hidden-xs action-buttons\">\n" +
+                                    "                                    <a class=\"green user-edit\" href=\"#\" data-id=\"" + i.id + "\">\n" +
+                                    "                                        <i class=\"ace-icon fa fa-pencil bigger-100\"></i>\n" +
+                                    "                                    </a>\n" +
+                                    "                                    <a class=\"red user-acl\" href=\"#\" data-id=\"" + i.id + "\">\n" +
+                                    "                                        <i class=\"ace-icon fa fa-flag bigger-100\"></i>\n" +
+                                    "                                    </a>\n" +
+                                    "                                </div>\n" +
+                                    "                            </td>\n" +
+                                    "                        </tr>"
+                            }
+                            $("#userList").html(str);
+                        }
+                    }
+                }
+            })
+            if (curPage === 1) {
+                $("#home").hide();
+            } else {
+                $("#home").show();
+            }
+            if (curPage === pageCount) {
+                $("#last").hide();
+            } else {
+                $("#last").show();
+            }
+        }
+
+
+        (function bindClick() {
+            $("#next").on("click", function () {
+                curPage++;
+                loadUser();
+            });
+            $("#prev").on("click", function () {
+                curPage--;
+                loadUser();
+            })
+            $("#home").on("click", function (e) {
+                curPage = 1;
+                loadUser();
+            })
+            $("#last").on("click", function () {
+                curPage = pageCount;
+                loadUser();
+            })
+        })();
+
+        //下拉框
+        $("#pageSize").on("change", function () {
+            pageSize = $("#pageSize :selected").val();
+            loadUser();
+        })
+
         // 递归渲染部门树
         function recursiveRenderDept(deptList) {
-            if(deptList && deptList.length > 0) {
+            if (deptList && deptList.length > 0) {
                 $(deptList).each(function (i, dept) {
-                     deptMap[dept.id] = dept;
-                     if (dept.deptLevelDtoList && dept.deptLevelDtoList.length > 0) {
-                         let rendered = Mustache.render(deptListTemplate, {deptList: dept.deptLevelDtoList});
-                         $("#dept_" + dept.id).append(rendered);
-                         recursiveRenderDept(dept.deptLevelDtoList);
-                     }
+                    deptMap[dept.id] = dept;
+                    if (dept.deptLevelDtoList && dept.deptLevelDtoList.length > 0) {
+                        let rendered = Mustache.render(deptListTemplate, {deptList: dept.deptLevelDtoList});
+                        $("#dept_" + dept.id).append(rendered);
+                        recursiveRenderDept(dept.deptLevelDtoList);
+                    }
                 })
+
             }
         }
 
         // 绑定部门点击事件
         function bindDeptClick() {
 
-            $(".dept-name").click(function(e) {
+            $(".dept-name").click(function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 let deptId = $(this).attr("data-id");
@@ -258,25 +379,26 @@
                             id: deptId
                         },
                         success: function (result) {
-                            if (result.ret) {
+                            if (result.result) {
                                 showMessage("删除部门[" + deptName + "]", "操作成功", true);
                                 loadDeptTree();
                             } else {
-                                showMessage("删除部门[" + deptName + "]", result.msg, false);
+                                showMessage("删除部门[" + deptName + "]", result.message, false);
                             }
                         }
                     });
                 }
             });
 
-            $(".dept-edit").click(function(e) {
+            $(".dept-edit").click(function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 let deptId = $(this).attr("data-id");
+                console.log(deptId);
                 $("#dialog-dept-form").dialog({
-                    model: true,
+                    modal: true,
                     title: "编辑部门",
-                    open: function(event, ui) {
+                    open: function (event, ui) {
                         $(".ui-dialog-titlebar-close", $(this).parent()).hide();
                         optionStr = "<option value=\"0\">-</option>";
                         recursiveRenderDeptSelect(deptList, 1);
@@ -291,13 +413,13 @@
                             $("#deptRemark").val(targetDept.remark);
                         }
                     },
-                    buttons : {
-                        "更新": function(e) {
+                    buttons: {
+                        "更新": function (e) {
                             e.preventDefault();
                             updateDept(false, function (data) {
                                 $("#dialog-dept-form").dialog("close");
                             }, function (data) {
-                                showMessage("更新部门", data.msg, false);
+                                showMessage("更新部门", data.message, false);
                             })
                         },
                         "取消": function () {
@@ -326,7 +448,7 @@
             let url = "/sys/user/page.json?deptId=" + deptId;
             let pageNo = $("#userPage .pageNo").val() || 1;
             $.ajax({
-                url : url,
+                url: url,
                 data: {
                     pageSize: pageSize,
                     pageNo: pageNo
@@ -338,58 +460,58 @@
         }
 
         function renderUserListAndPage(result, url) {
-            if (result.ret) {
-                if (result.data.total > 0){
-                    let rendered = Mustache.render(userListTemplate, {
-                        userList: result.data.data,
-                        "showDeptName": function() {
-                            return deptMap[this.deptId].name;
-                        },
-                        "showStatus": function() {
-                            return this.status == 1 ? '有效' : (this.status == 0 ? '无效' : '删除');
-                        },
-                        "bold": function() {
-                            return function(text, render) {
-                                let status = render(text);
-                                if (status == '有效') {
-                                    return "<span class='label label-sm label-success'>有效</span>";
-                                } else if(status == '无效') {
-                                    return "<span class='label label-sm label-warning'>无效</span>";
-                                } else {
-                                    return "<span class='label'>删除</span>";
-                                }
+            if (result.result) {
+                // if (result.data.total > 0) {
+                let rendered = Mustache.render(userListTemplate, {
+                    userList: result.data,
+                    "showDeptName": function () {
+                        return deptMap[this.deptId].name;
+                    },
+                    "showStatus": function () {
+                        return this.status == 1 ? '有效' : (this.status == 0 ? '无效' : '删除');
+                    },
+                    "bold": function () {
+                        return function (text, render) {
+                            let status = render(text);
+                            if (status == '有效') {
+                                return "<span class='label label-sm label-success'>有效</span>";
+                            } else if (status == '无效') {
+                                return "<span class='label label-sm label-warning'>无效</span>";
+                            } else {
+                                return "<span class='label'>删除</span>";
                             }
                         }
-                    });
-                    $("#userList").html(rendered);
-                    bindUserClick();
-                    $.each(result.data.data, function(i, user) {
-                        userMap[user.id] = user;
-                    })
-                } else {
-                    $("#userList").html('');
-                }
+                    }
+                });
+                $("#userList").html(rendered);
+                bindUserClick();
+                $.each(result.data, function (i, user) {
+                    userMap[user.id] = user;
+                })
+                // } else {
+                //     $("#userList").html('');
+                // }
                 let pageSize = $("#pageSize").val();
                 let pageNo = $("#userPage .pageNo").val() || 1;
-                renderPage(url, result.data.total, pageNo, pageSize, result.data.total > 0 ? result.data.data.length : 0, "userPage", renderUserListAndPage);
+                // renderPage(url, result.data.total, pageNo, pageSize, result.data.total > 0 ? result.data.data.length : 0, "userPage", renderUserListAndPage);
             } else {
-                showMessage("获取部门下用户列表", result.msg, false);
+                showMessage("获取部门下用户列表", result.message, false);
             }
         }
 
-        $(".user-add").click(function() {
+        $(".user-add").click(function () {
             $("#dialog-user-form").dialog({
-                model: true,
+                modal: true,
                 title: "新增用户",
-                open: function(event, ui) {
+                open: function (event, ui) {
                     $(".ui-dialog-titlebar-close", $(this).parent()).hide();
                     optionStr = "";
                     recursiveRenderDeptSelect(deptList, 1);
                     $("#userForm")[0].reset();
                     $("#deptSelectId").html(optionStr);
                 },
-                buttons : {
-                    "添加": function(e) {
+                buttons: {
+                    "添加": function (e) {
                         e.preventDefault();
                         updateUser(true, function (data) {
                             $("#dialog-user-form").dialog("close");
@@ -404,6 +526,7 @@
                 }
             });
         });
+
         function bindUserClick() {
             $(".user-acl").click(function (e) {
                 e.preventDefault();
@@ -414,8 +537,8 @@
                     data: {
                         userId: userId
                     },
-                    success: function(result) {
-                        if (result.ret) {
+                    success: function (result) {
+                        if (result.result) {
                             console.log(result)
                         } else {
                             showMessage("获取用户权限数据", result.msg, false);
@@ -423,14 +546,14 @@
                     }
                 })
             });
-            $(".user-edit").click(function(e) {
+            $(".user-edit").click(function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 let userId = $(this).attr("data-id");
                 $("#dialog-user-form").dialog({
-                    model: true,
+                    modal: true,
                     title: "编辑用户",
-                    open: function(event, ui) {
+                    open: function (event, ui) {
                         $(".ui-dialog-titlebar-close", $(this).parent()).hide();
                         optionStr = "";
                         recursiveRenderDeptSelect(deptList, 1);
@@ -448,14 +571,14 @@
                             $("#userId").val(targetUser.id);
                         }
                     },
-                    buttons : {
-                        "更新": function(e) {
+                    buttons: {
+                        "更新": function (e) {
                             e.preventDefault();
                             updateUser(false, function (data) {
                                 $("#dialog-user-form").dialog("close");
                                 loadUserList(lastClickDeptId);
                             }, function (data) {
-                                showMessage("更新用户", data.msg, false);
+                                showMessage("更新用户", data.message, false);
                             })
                         },
                         "取消": function () {
@@ -466,11 +589,11 @@
             });
         }
 
-        $(".dept-add").click(function() {
+        $(".dept-add").click(function () {
             $("#dialog-dept-form").dialog({
                 modal: true,
                 title: "新增部门",
-                open: function(event, ui) {
+                open: function (event, ui) {
                     $(".ui-dialog-titlebar-close", $(this).parent()).hide();
                     optionStr = "<option value=\"0\">-</option>";
                     //加载下拉框
@@ -478,8 +601,8 @@
                     $("#deptForm")[0].reset();
                     $("#parentId").html(optionStr);
                 },
-                buttons : {
-                    "添加": function(e) {
+                buttons: {
+                    "添加": function (e) {
                         e.preventDefault();
                         updateDept(true, function (data) {
                             $("#dialog-dept-form").dialog("close");
@@ -501,14 +624,17 @@
                     deptMap[dept.id] = dept;
                     let blank = "";
                     if (level > 1) {
-                        for(let j = 3; j <= level; j++) {
+                        for (let j = 3; j <= level; j++) {
                             blank += "..";
                         }
                         blank += "∟";
                     }
-                    optionStr += Mustache.render("<option value='{{id}}'>{{name}}</option>", {id: dept.id, name: blank + dept.name});
-                    if (dept.list && dept.list.length > 0) {
-                        recursiveRenderDeptSelect(dept.list, level + 1);
+                    optionStr += Mustache.render("<option value='{{id}}'>{{name}}</option>", {
+                        id: dept.id,
+                        name: blank + dept.name
+                    });
+                    if (dept.deptLevelDtoList && dept.deptLevelDtoList.length > 0) {
+                        recursiveRenderDeptSelect(dept.deptLevelDtoList, level + 1);
                     }
                 });
             }
@@ -519,8 +645,8 @@
                 url: isCreate ? "/sys/user/save.json" : "/sys/user/update.json",
                 data: $("#userForm").serializeArray(),
                 type: 'POST',
-                success: function(result) {
-                    if (result.ret) {
+                success: function (result) {
+                    if (result.result) {
                         loadDeptTree();
                         if (successCallback) {
                             successCallback(result);
@@ -540,7 +666,7 @@
                 url: isCreate ? "/sys/dept/insert.json" : "/sys/dept/update.json",
                 data: $("#deptForm").serializeArray(),//{name:value,name:value} 序列化 input输入框
                 type: 'POST',
-                success: function(result) {
+                success: function (result) {
                     if (result.result) {
                         loadDeptTree();//每次添加又刷新了一次
                         if (successCallback) {//判断成功回调的方法
@@ -554,7 +680,7 @@
                 }
             })
         }
-    })
+    });
 </script>
 </body>
 </html>

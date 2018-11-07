@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmcc.dao.SysRoleAclMapper" >
-  <resultMap id="BaseResultMap" type="com.xmcc.pojo.SysRoleAcl" >
+<mapper namespace="com.lusiwei.dao.SysRoleAclMapper" >
+  <resultMap id="BaseResultMap" type="com.lusiwei.pojo.SysRoleAcl" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="acl_id" property="aclId" jdbcType="INTEGER" />
@@ -22,7 +22,7 @@
     delete from sys_role_acl
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xmcc.pojo.SysRoleAcl" >
+  <insert id="insert" parameterType="com.lusiwei.pojo.SysRoleAcl" >
     insert into sys_role_acl (id, role_id, acl_id, 
       operator, operate_time, operate_ip
       )
@@ -30,7 +30,7 @@
       #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.xmcc.pojo.SysRoleAcl" >
+  <insert id="insertSelective" parameterType="com.lusiwei.pojo.SysRoleAcl" >
     insert into sys_role_acl
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -73,7 +73,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xmcc.pojo.SysRoleAcl" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lusiwei.pojo.SysRoleAcl" >
     update sys_role_acl
     <set >
       <if test="roleId != null" >
@@ -94,7 +94,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xmcc.pojo.SysRoleAcl" >
+  <update id="updateByPrimaryKey" parameterType="com.lusiwei.pojo.SysRoleAcl" >
     update sys_role_acl
     set role_id = #{roleId,jdbcType=INTEGER},
       acl_id = #{aclId,jdbcType=INTEGER},

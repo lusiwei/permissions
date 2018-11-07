@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmcc.dao.SysLogMapper" >
-  <resultMap id="BaseResultMap" type="com.xmcc.pojo.SysLog" >
+<mapper namespace="com.lusiwei.dao.SysLogMapper" >
+  <resultMap id="BaseResultMap" type="com.lusiwei.pojo.SysLog" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="target_id" property="targetId" jdbcType="INTEGER" />
@@ -10,7 +10,7 @@
     <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.xmcc.pojo.SysLogWithBLOBs" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.lusiwei.pojo.SysLogWithBLOBs" extends="BaseResultMap" >
     <result column="old_value" property="oldValue" jdbcType="LONGVARCHAR" />
     <result column="new_value" property="newValue" jdbcType="LONGVARCHAR" />
   </resultMap>
@@ -32,7 +32,7 @@
     delete from sys_log
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xmcc.pojo.SysLogWithBLOBs" >
+  <insert id="insert" parameterType="com.lusiwei.pojo.SysLogWithBLOBs" >
     insert into sys_log (id, type, target_id, 
       operator, operate_time, operate_ip, 
       status, old_value, new_value
@@ -42,7 +42,7 @@
       #{status,jdbcType=INTEGER}, #{oldValue,jdbcType=LONGVARCHAR}, #{newValue,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.xmcc.pojo.SysLogWithBLOBs" >
+  <insert id="insertSelective" parameterType="com.lusiwei.pojo.SysLogWithBLOBs" >
     insert into sys_log
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -103,7 +103,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xmcc.pojo.SysLogWithBLOBs" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lusiwei.pojo.SysLogWithBLOBs" >
     update sys_log
     <set >
       <if test="type != null" >
@@ -133,7 +133,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xmcc.pojo.SysLogWithBLOBs" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lusiwei.pojo.SysLogWithBLOBs" >
     update sys_log
     set type = #{type,jdbcType=INTEGER},
       target_id = #{targetId,jdbcType=INTEGER},
@@ -145,7 +145,7 @@
       new_value = #{newValue,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xmcc.pojo.SysLog" >
+  <update id="updateByPrimaryKey" parameterType="com.lusiwei.pojo.SysLog" >
     update sys_log
     set type = #{type,jdbcType=INTEGER},
       target_id = #{targetId,jdbcType=INTEGER},

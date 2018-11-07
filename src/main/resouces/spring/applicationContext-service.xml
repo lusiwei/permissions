@@ -6,6 +6,6 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
-    <context:component-scan base-package="com.xmcc.service"/>
-    <bean class="com.xmcc.common.ApplicationContextHelper"/>
+    <context:component-scan base-package="com.lusiwei.service"/>
+    <bean class="com.lusiwei.common.ApplicationContextHelper"/>
 </beans>

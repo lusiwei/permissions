@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmcc.dao.SysUserMapper">
-    <resultMap id="BaseResultMap" type="com.xmcc.pojo.SysUser">
+<mapper namespace="com.lusiwei.dao.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.lusiwei.pojo.SysUser">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="username" property="username" jdbcType="VARCHAR"/>
         <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
@@ -28,7 +28,7 @@
     delete from sys_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.xmcc.pojo.SysUser">
+    <insert id="insert" parameterType="com.lusiwei.pojo.SysUser">
     insert into sys_user (id, username, telephone, 
       mail, password, dept_id, 
       status, remark, operator, 
@@ -38,7 +38,7 @@
       #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
       #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.xmcc.pojo.SysUser">
+    <insert id="insertSelective" parameterType="com.lusiwei.pojo.SysUser">
         insert into sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -111,7 +111,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.xmcc.pojo.SysUser">
+    <update id="updateByPrimaryKeySelective" parameterType="com.lusiwei.pojo.SysUser">
         update sys_user
         <set>
             <if test="username != null">
@@ -147,7 +147,7 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.xmcc.pojo.SysUser">
+    <update id="updateByPrimaryKey" parameterType="com.lusiwei.pojo.SysUser">
     update sys_user
     set username = #{username,jdbcType=VARCHAR},
       telephone = #{telephone,jdbcType=VARCHAR},
@@ -161,7 +161,6 @@
       operate_ip = #{operateIp,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-
     <select id="checkEmail" resultType="int">
         select
         count(1)
@@ -177,5 +176,23 @@
         <if test="id!=null">
             and id!=#{id}
         </if>
+    </select>
+    <select id="login" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user where mail=#{account} or telephone=#{account}
+    </select>
+    <select id="queryAllUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user limit #{limitBegin},#{pageSize}
+    </select>
+    <select id="queryCount" resultType="long">
+        select count(*) from sys_user
+    </select>
+    <select id="queryByDeptId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user where dept_id=#{deptId} order by username
     </select>
 </mapper>

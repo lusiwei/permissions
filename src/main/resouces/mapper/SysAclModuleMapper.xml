@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmcc.dao.SysAclModuleMapper" >
-  <resultMap id="BaseResultMap" type="com.xmcc.pojo.SysAclModule" >
+<mapper namespace="com.lusiwei.dao.SysAclModuleMapper" >
+  <resultMap id="BaseResultMap" type="com.lusiwei.pojo.SysAclModule" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
@@ -26,7 +26,7 @@
     delete from sys_acl_module
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xmcc.pojo.SysAclModule" >
+  <insert id="insert" parameterType="com.lusiwei.pojo.SysAclModule" >
     insert into sys_acl_module (id, name, parent_id, 
       level, seq, status, 
       remark, operator, operate_time, 
@@ -36,7 +36,7 @@
       #{remark,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, 
       #{operateIp,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.xmcc.pojo.SysAclModule" >
+  <insert id="insertSelective" parameterType="com.lusiwei.pojo.SysAclModule" >
     insert into sys_acl_module
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -103,7 +103,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xmcc.pojo.SysAclModule" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lusiwei.pojo.SysAclModule" >
     update sys_acl_module
     <set >
       <if test="name != null" >
@@ -136,7 +136,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xmcc.pojo.SysAclModule" >
+  <update id="updateByPrimaryKey" parameterType="com.lusiwei.pojo.SysAclModule" >
     update sys_acl_module
     set name = #{name,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
@@ -149,4 +149,29 @@
       operate_ip = #{operateIp,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="checkAclModuleName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_acl_module where name=#{name} and parent_id=#{parentId}
+    <if test="id != null">
+      and  id !=#{id}
+    </if>
+  </select>
+  <select id="selectLevelById" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_acl_module where id=#{id}
+  </select>
+
+  <select id="selectChildByLevel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_acl_module
+    where level like concat(#{level},"-%") or parent_id=#{id}
+  </select>
+  <select id="queryAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_acl_module
+  </select>
 </mapper>

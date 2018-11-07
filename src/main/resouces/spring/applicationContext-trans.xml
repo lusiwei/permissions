@@ -22,7 +22,7 @@
         </tx:attributes>
     </tx:advice>
     <aop:config>
-        <aop:pointcut id="point" expression="execution(* com.xmcc.service.*.*(..))"></aop:pointcut>
+        <aop:pointcut id="point" expression="execution(* com.lusiwei.service.*.*(..))"></aop:pointcut>
         <aop:advisor advice-ref="advice" pointcut-ref="point"/>
     </aop:config>
 </beans>

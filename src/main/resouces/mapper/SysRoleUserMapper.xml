@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xmcc.dao.SysRoleUserMapper" >
-  <resultMap id="BaseResultMap" type="com.xmcc.pojo.SysRoleUser" >
+<mapper namespace="com.lusiwei.dao.SysRoleUserMapper" >
+  <resultMap id="BaseResultMap" type="com.lusiwei.pojo.SysRoleUser" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="role_id" property="roleId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
@@ -22,7 +22,7 @@
     delete from sys_role_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.xmcc.pojo.SysRoleUser" >
+  <insert id="insert" parameterType="com.lusiwei.pojo.SysRoleUser" >
     insert into sys_role_user (id, role_id, user_id, 
       operator, operate_time, operate_ip
       )
@@ -30,7 +30,7 @@
       #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.xmcc.pojo.SysRoleUser" >
+  <insert id="insertSelective" parameterType="com.lusiwei.pojo.SysRoleUser" >
     insert into sys_role_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -73,7 +73,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xmcc.pojo.SysRoleUser" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.lusiwei.pojo.SysRoleUser" >
     update sys_role_user
     <set >
       <if test="roleId != null" >
@@ -94,7 +94,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xmcc.pojo.SysRoleUser" >
+  <update id="updateByPrimaryKey" parameterType="com.lusiwei.pojo.SysRoleUser" >
     update sys_role_user
     set role_id = #{roleId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
