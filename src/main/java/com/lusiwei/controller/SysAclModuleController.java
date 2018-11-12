@@ -17,24 +17,33 @@ public class SysAclModuleController {
     private SysAclModuleService sysAclModuleService;
 
     @RequestMapping("dept.page")
-    public String deptPage(){
+    public String deptPage() {
+
         return "dept";
     }
+
     @RequestMapping("insert.json")
     public @ResponseBody
-    ResultJson insert(SysAclModuleDto sysAclModuleDto){
+    ResultJson insert(SysAclModuleDto sysAclModuleDto) {
         sysAclModuleService.insert(sysAclModuleDto);
         return ResultJson.success("插入成功");
     }
-   @RequestMapping("fullTree.json")
-    public @ResponseBody  ResultJson fullTree(){
 
+    @RequestMapping("fullTree.json")
+    public @ResponseBody
+    ResultJson fullTree() {
         return ResultJson.success(sysAclModuleService.sysAclModuleTree());
     }
 
     @RequestMapping("update.json")
-    public @ResponseBody  ResultJson update(SysAclModuleDto sysAclModuleDto){
+    public @ResponseBody
+    ResultJson update(SysAclModuleDto sysAclModuleDto) {
         sysAclModuleService.update(sysAclModuleDto);
         return ResultJson.success();
+    }
+
+    @RequestMapping("acl.page")
+    public String aclPage() {
+        return "acl";
     }
 }

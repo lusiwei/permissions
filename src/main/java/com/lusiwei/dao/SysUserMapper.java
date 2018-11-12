@@ -29,4 +29,8 @@ public interface SysUserMapper {
     long queryCount();
 
     List<SysUser> queryByDeptId(@Param("deptId") Integer deptId);
+
+    List<SysUser> queryUnselectedUser(List<Integer> list);
+
+    List<SysUser> querySelectedUser(List<Integer> list);
 }

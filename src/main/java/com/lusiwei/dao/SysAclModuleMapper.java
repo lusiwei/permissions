@@ -18,11 +18,11 @@ public interface SysAclModuleMapper {
 
     int updateByPrimaryKey(SysAclModule record);
 
+    SysAclModule checkAclModuleName(@Param("name") String name, @Param("parentId") Integer parentId, @Param("id") Integer id);
+
+    SysAclModule selectLevelById(@Param("id") Integer id);
+
     List<SysAclModule> selectChildByLevel(@Param("level") String level, @Param("id") Integer id);
 
     List<SysAclModule> queryAll();
-
-    SysAclModule selectLevelById(Integer id);
-
-    SysAclModule checkAclModuleName(@Param("name") String name, @Param("parentId") Integer parentId, @Param("id") Integer id);
 }

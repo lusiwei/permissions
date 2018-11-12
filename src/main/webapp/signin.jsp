@@ -28,6 +28,9 @@
     <![endif]-->
 
     <script>
+        if(window.self!=window.top){
+            window.top.location=window.self.location;
+        }
         $(function () {
             $("#login").click(function (e) {
                 e.preventDefault();
@@ -37,7 +40,6 @@
                     data: $("#loginForm").serializeArray(),
                     success:function (resultJson) {
                         if(resultJson.result){
-                            alert("login success");
                             location.href="admin.jsp";
                         }else{
                             $("#message").html(resultJson.msg);

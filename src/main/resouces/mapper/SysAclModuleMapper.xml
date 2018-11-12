@@ -149,18 +149,19 @@
       operate_ip = #{operateIp,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <select id="checkAclModuleName" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from sys_acl_module where name=#{name} and parent_id=#{parentId}
     <if test="id != null">
-      and  id !=#{id}
+     and  id !=#{id}
     </if>
   </select>
   <select id="selectLevelById" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from sys_acl_module where id=#{id}
+      from sys_acl_module where id=#{id}
   </select>
 
   <select id="selectChildByLevel" resultMap="BaseResultMap">
@@ -170,8 +171,8 @@
     where level like concat(#{level},"-%") or parent_id=#{id}
   </select>
   <select id="queryAll" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from sys_acl_module
+  select
+  <include refid="Base_Column_List" />
+  from sys_acl_module
   </select>
 </mapper>

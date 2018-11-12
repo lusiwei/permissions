@@ -57,7 +57,7 @@ public class SysUserServiceImpl implements SysUserService {
     public void update(SysUserDto sysUserDto) {
         BeanValidator.check(sysUserDto);
         checkEmail(sysUserDto.getMail(), sysUserDto.getId());
-        checkTelephone(sysUserDto.getTelephone(), sysUserDto.getDeptId());
+        checkTelephone(sysUserDto.getTelephone(), sysUserDto.getId());
 
         //  todo:邮箱电话要加密
         SysUser sysUser = SysUser.builder().id(sysUserDto.getId()).mail(sysUserDto.getMail()).telephone(sysUserDto.getTelephone()).deptId(sysUserDto.getDeptId()).remark(sysUserDto.getRemark())

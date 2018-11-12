@@ -103,4 +103,8 @@
       operate_ip = #{operateIp,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    delete from sys_role_acl
+    where role_id=#{roleId}
+  </delete>
 </mapper>

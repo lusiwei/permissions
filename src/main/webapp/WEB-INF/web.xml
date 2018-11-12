@@ -55,11 +55,11 @@
         <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
         <init-param>
             <param-name>loginUsername</param-name>
-            <param-value>xmcc</param-value>
+            <param-value>lusiwei</param-value>
         </init-param>
         <init-param>
             <param-name>loginPassword</param-name>
-            <param-value>xmcc</param-value>
+            <param-value>lusiwei</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

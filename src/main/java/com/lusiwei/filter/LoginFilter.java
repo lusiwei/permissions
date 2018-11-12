@@ -1,6 +1,7 @@
 package com.lusiwei.filter;
 
 import com.lusiwei.pojo.SysUser;
+import com.lusiwei.util.ThreadLocalCommon;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,8 @@ public class LoginFilter implements Filter {
             httpServletResponse.sendRedirect("/signin.jsp");
             return;
         }
+        ThreadLocalCommon.pushSysUser(sysUser);
+        ThreadLocalCommon.pushHttpServletRequest(httpServletRequest);
         filterChain.doFilter(httpServletRequest,httpServletResponse);
     }
 

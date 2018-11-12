@@ -2,6 +2,8 @@ package com.lusiwei.dao;
 
 import com.lusiwei.pojo.SysRole;
 
+import java.util.List;
+
 public interface SysRoleMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +16,10 @@ public interface SysRoleMapper {
     int updateByPrimaryKeySelective(SysRole record);
 
     int updateByPrimaryKey(SysRole record);
+
+    List<SysRole> queryAllRole();
+
+    SysRole queryRoleByName(String name);
+
+    List<SysRole> queryRoleByUser(Integer userId);
 }

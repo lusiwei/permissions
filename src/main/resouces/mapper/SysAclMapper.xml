@@ -174,4 +174,34 @@
       operate_ip = #{operateIp,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectCountByModuleId"  resultType="long">
+    select
+   count(1)
+    from sys_acl
+    where acl_module_id=#{aclModuleId}
+  </select>
+
+  <select id="selectAclByModuleId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_acl
+    where acl_module_id=#{aclModuleId} order by seq limit #{begin},#{pageSize}
+  </select>
+  <select id="queryAclByRoleId" resultMap="BaseResultMap">
+    SELECT
+    sa.*
+    FROM sys_role_acl sra JOIN sys_acl sa ON  sra.acl_id=sa.id
+    WHERE sra.role_id
+    <foreach collection="roleList" separator="," open=" in(" close=")" item="role">
+      #{role.id}
+    </foreach>
+  </select>
+  <select id="queryAclByModuleId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_acl
+    where acl_module_id=#{id}
+    order by seq
+  </select>
 </mapper>

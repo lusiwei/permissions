@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 public class SysAclModuleTreeDto extends SysAclModule implements Serializable {
     private List<SysAclModuleTreeDto> list;
+    private List<SysAclTreeDto> aclList;
 
     public static SysAclModuleTreeDto getSysAclModuleTreeDto(SysAclModule sysAclModule){
         SysAclModuleTreeDto sysAclModuleTreeDto = new SysAclModuleTreeDto();

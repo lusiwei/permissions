@@ -1,7 +1,10 @@
 package com.lusiwei.pojo;
 
+import lombok.Builder;
+
 import java.util.Date;
 
+@Builder
 public class SysRoleAcl {
     private Integer id;
 

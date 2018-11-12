@@ -1,5 +1,6 @@
 package com.lusiwei.dto;
 
+import com.lusiwei.pojo.SysAcl;
 import com.lusiwei.pojo.SysUser;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,7 @@ public class PageUtilDto {
      * 数据
      */
     private List<SysUser> sysUsers;
+    private List<SysAcl> sysAcls;
 
     public Integer getPageCount() {
         return (int) Math.ceil((totalCount+0.0)/pageSize);

@@ -14,4 +14,6 @@ public interface SysRoleAclMapper {
     int updateByPrimaryKeySelective(SysRoleAcl record);
 
     int updateByPrimaryKey(SysRoleAcl record);
+
+    void deleteByRoleId(Integer roleId);
 }

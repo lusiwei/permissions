@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.lusiwei.dao.SysAclModuleMapper;
 import com.lusiwei.dto.SysAclModuleDto;
+import com.lusiwei.dto.SysAclModuleTreeDto;
 import com.lusiwei.exception.ParamException;
 import com.lusiwei.pojo.SysAclModule;
 import com.lusiwei.service.SysAclModuleService;
@@ -13,13 +14,12 @@ import com.lusiwei.util.BeanValidator;
 import com.lusiwei.util.IPUtils;
 import com.lusiwei.util.LevelUtil;
 import com.lusiwei.util.ThreadLocalCommon;
-import com.lusiwei.dto.SysAclModuleTreeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-
 import java.util.*;
+
 
 @Service
 public class SysAclModuleServiceImpl implements SysAclModuleService {
@@ -40,7 +40,7 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
         sysAclModule.setLevel(LevelUtil.getLevel(getParentLevel(sysAclModuleDto.getParentId()),sysAclModuleDto.getParentId()));
 
             //操作人 TODO:得从session与request拿
-        sysAclModule.setOperator(ThreadLocalCommon.popSysUser().getUsername());
+        sysAclModule.setOperator(ThreadLocalCommon.getSysUser().getUsername());
         sysAclModule.setOperateTime(new Date());
         sysAclModule.setOperateIp(IPUtils.getIpAddress(ThreadLocalCommon.popHttpServletRequest()));
         sysAclModuleMapper.insertSelective(sysAclModule);
@@ -81,7 +81,7 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
             //获得父类的level  父类的id为1  父类的lever  0    0-1
             after.setLevel(LevelUtil.getLevel(getParentLevel(sysAclModuleDto.getParentId()),sysAclModuleDto.getParentId()));
             //操作人 TODO:得从session与request拿
-            after.setOperator(ThreadLocalCommon.popSysUser().getUsername());
+            after.setOperator(ThreadLocalCommon.getSysUser().getUsername());
             after.setOperateTime(new Date());
             after.setOperateIp(IPUtils.getIpAddress(ThreadLocalCommon.popHttpServletRequest()));
             updateWithChild(before,after,sysAclModuleDto.getId());
@@ -90,7 +90,7 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
     private void updateWithChild(SysAclModule before, SysAclModule after, Integer id) {
         String beforeLevel = before.getLevel();
         String afterLevel = after.getLevel();
-        if(!beforeLevel.equals(afterLevel)){
+        if(!beforeLevel.equals(afterLevel)){        //0  0-1%   0-10 0-12
            List<SysAclModule> list = sysAclModuleMapper.selectChildByLevel(LevelUtil.getLevel(beforeLevel,id),id);
             for (SysAclModule sysAclModule : list) {
                 //"0-1-10-12","0-1","0-2"
@@ -115,7 +115,7 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
         for (SysAclModule sysAclModule : sysAclModuleList) {
             //转换为树dto
             sysAclModuleTreeDto = SysAclModuleTreeDto.getSysAclModuleTreeDto(sysAclModule);
-            if(sysAclModuleTreeDto.getLevel().equals(LevelUtil.ROOT_LEVEL)){
+            if(sysAclModuleTreeDto.getLevel().equals(LevelUtil.ROOT_LEVEL)){//最高一级
                 rootList.add(sysAclModuleTreeDto);
             }
             multimap.put(sysAclModuleTreeDto.getLevel(),sysAclModuleTreeDto);

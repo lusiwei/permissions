@@ -195,4 +195,21 @@
         <include refid="Base_Column_List"/>
         from sys_user where dept_id=#{deptId} order by username
     </select>
+    <select id="queryUnselectedUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user where id
+        <foreach collection="list" item="item" open=" not in(" close=")" separator="," index="index">
+            #{item}
+        </foreach>
+    </select>
+    <select id="querySelectedUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user where id
+        <foreach collection="list" item="item" open=" in(" close=")" separator="," index="index">
+            #{item}
+        </foreach>
+
+    </select>
 </mapper>

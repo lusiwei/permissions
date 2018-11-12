@@ -1,5 +1,6 @@
 package com.lusiwei.util;
 
+
 import com.lusiwei.pojo.SysUser;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,7 @@ public class ThreadLocalCommon {
         USER_THREAD_LOCAL.set(sysUser);
     }
 
-    public static SysUser popSysUser(){
+    public static SysUser getSysUser(){
        return USER_THREAD_LOCAL.get();
     }
     public static void removeSysUser(){
