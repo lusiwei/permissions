@@ -7,6 +7,7 @@ import com.lusiwei.dto.PageUtilDto;
 import com.lusiwei.dto.SysUserDto;
 import com.lusiwei.exception.ParamException;
 import com.lusiwei.pojo.SysUser;
+import com.lusiwei.service.SysLogService;
 import com.lusiwei.service.SysUserService;
 import com.lusiwei.util.BeanValidator;
 import com.lusiwei.util.MD5Utils;
@@ -26,10 +27,12 @@ import java.util.List;
 public class SysUserServiceImpl implements SysUserService {
 
     private final SysUserMapper sysUserMapper;
+    private final SysLogService sysLogService;
 
     @Autowired
-    public SysUserServiceImpl(SysUserMapper sysUserMapper) {
+    public SysUserServiceImpl(SysUserMapper sysUserMapper, SysLogService sysLogService) {
         this.sysUserMapper = sysUserMapper;
+        this.sysLogService = sysLogService;
     }
 
     /**
@@ -51,6 +54,8 @@ public class SysUserServiceImpl implements SysUserService {
         sysUser.setOperateTime(new Date());
         sysUser.setOperateIp("127.0.0.1");
         sysUserMapper.insertSelective(sysUser);
+        //加入log日志
+        sysLogService.saveLogUser(null,sysUser);
     }
 
     @Override
@@ -66,6 +71,8 @@ public class SysUserServiceImpl implements SysUserService {
         sysUser.setOperator("lusiwei");
         sysUser.setOperateTime(new Date());
         sysUser.setOperateIp("127.0.0.1");
+        //记录日志
+        sysLogService.saveLogUser(sysUserMapper.selectByPrimaryKey(sysUserDto.getId()),sysUser);
         sysUserMapper.updateByPrimaryKeySelective(sysUser);
     }
 

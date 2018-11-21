@@ -5,7 +5,7 @@ import com.lusiwei.pojo.SysUser;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class ThreadLocalCommon {
+public class RequestHolder {
     //绑定当前用户
     private static final ThreadLocal<SysUser> USER_THREAD_LOCAL =new ThreadLocal<>();
 
@@ -16,7 +16,7 @@ public class ThreadLocalCommon {
         USER_THREAD_LOCAL.set(sysUser);
     }
 
-    public static SysUser getSysUser(){
+    public static SysUser getCurrentUser(){
        return USER_THREAD_LOCAL.get();
     }
     public static void removeSysUser(){
@@ -27,7 +27,7 @@ public class ThreadLocalCommon {
         REQUEST_LOCAL.set(request);
     }
 
-    public static HttpServletRequest popHttpServletRequest(){
+    public static HttpServletRequest getHttpServletRequest(){
         return REQUEST_LOCAL.get();
     }
     public static void removeHttpServletRequest(){

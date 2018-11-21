@@ -204,4 +204,17 @@
     where acl_module_id=#{id}
     order by seq
   </select>
+  <select id="queryAclByUrl" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sys_acl
+    where url=#{url}
+  </select>
+  <!--根据模块id查询权限点-->
+  <select id="queryAclByAclModuleId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from sys_acl
+    where acl_module_id=#{aclModuleId}
+  </select>
 </mapper>

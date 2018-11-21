@@ -3,6 +3,11 @@
 <head>
     <title>无权限访问</title>
     <jsp:include page="/common/backend_common.jsp"/>
+    <%--<script>--%>
+        <%--if(window.self!=window.top){--%>
+            <%--window.top.location=window.self.location;--%>
+        <%--}--%>
+    <%--</script>--%>
 </head>
 <body class="no-skin" youdao="bind" style="background: white">
 <div class="main-content-inner">

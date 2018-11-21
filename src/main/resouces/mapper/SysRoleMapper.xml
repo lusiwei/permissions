@@ -141,4 +141,13 @@
   sr.*
   FROM sys_role sr JOIN sys_role_user sru ON sr.id=sru.role_id WHERE user_id=#{userId}
   </select>
+    <!--根据roleId 查role-->
+    <select id="queryRoleByRoleId" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List"/>
+        from sys_role 
+        <foreach collection="set" item="item" open=" in(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

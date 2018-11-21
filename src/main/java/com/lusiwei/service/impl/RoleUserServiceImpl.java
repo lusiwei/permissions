@@ -7,13 +7,13 @@ import com.lusiwei.pojo.SysRoleUser;
 import com.lusiwei.pojo.SysUser;
 import com.lusiwei.service.SysRoleUserService;
 import com.lusiwei.util.IPUtils;
-import com.lusiwei.util.ThreadLocalCommon;
+import com.lusiwei.util.RequestHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: lusiwei
@@ -33,20 +33,17 @@ public class RoleUserServiceImpl implements SysRoleUserService {
 
     @Override
     public RoleUserDto queryUserByRoleId(Integer roleId) {
-        List<SysRoleUser> sysUsers=sysRoleUserMapper.queryUserByRoleId(roleId);
-        List<Integer> list=new ArrayList<>();
-        //查詢所有用戶
-        for (SysRoleUser sysUser : sysUsers) {
-            list.add(sysUser.getUserId());
-        }
+        List<SysRoleUser> sysRoleUsers = sysRoleUserMapper.queryUserByRoleId(roleId);
+        List<Integer> list = sysRoleUsers.stream().map(SysRoleUser::getUserId).collect(Collectors.toList());
         System.out.println("-------------------------");
         System.out.println(list);
-        List<SysUser> selectedUser=null;
-        if (list.size()>0){
-            selectedUser=sysUserMapper.querySelectedUser(list);
+        List<SysUser> selectedUser = null;
+        if (list.size() > 0) {
+            selectedUser = sysUserMapper.querySelectedUser(list);
         }
-        List<SysUser> unselectedUser=sysUserMapper.queryUnselectedUser(list);
-        RoleUserDto roleUserDto=RoleUserDto.builder().selected(selectedUser).unselected(unselectedUser).build();
+//        sysUserMapper.querySelectedUser(list).stream()
+        List<SysUser> unselectedUser = sysUserMapper.queryUnselectedUser(list);
+        RoleUserDto roleUserDto = RoleUserDto.builder().selected(selectedUser).unselected(unselectedUser).build();
         return roleUserDto;
     }
 
@@ -55,8 +52,8 @@ public class RoleUserServiceImpl implements SysRoleUserService {
         sysRoleUserMapper.deleteByRoleId(roleId);
         for (Integer userId : userIds) {
             SysRoleUser sysRoleUser = SysRoleUser.builder().roleId(roleId).userId(userId).build();
-            sysRoleUser.setOperator(ThreadLocalCommon.getSysUser().getUsername());
-            sysRoleUser.setOperateIp(IPUtils.getIpAddress(ThreadLocalCommon.popHttpServletRequest()));
+            sysRoleUser.setOperator(RequestHolder.getCurrentUser().getUsername());
+            sysRoleUser.setOperateIp(IPUtils.getIpAddress(RequestHolder.getHttpServletRequest()));
             sysRoleUser.setOperateTime(new Date());
             sysRoleUserMapper.insertSelective(sysRoleUser);
         }

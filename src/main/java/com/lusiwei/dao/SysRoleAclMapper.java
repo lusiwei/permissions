@@ -2,6 +2,8 @@ package com.lusiwei.dao;
 
 import com.lusiwei.pojo.SysRoleAcl;
 
+import java.util.List;
+
 public interface SysRoleAclMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -16,4 +18,6 @@ public interface SysRoleAclMapper {
     int updateByPrimaryKey(SysRoleAcl record);
 
     void deleteByRoleId(Integer roleId);
+
+    List<SysRoleAcl> queryAllRoleByAclId(Integer aclId);
 }

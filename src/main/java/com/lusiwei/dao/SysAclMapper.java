@@ -26,4 +26,8 @@ public interface SysAclMapper {
     List<SysAcl> queryAclByModuleId(Integer id);
 
     List<SysAcl> queryAclByRoleId(@Param("roleList") List<SysRole> roleList);
+
+    List<SysAcl> queryAclByUrl(String url);
+
+    List<SysAcl> queryAclByAclModuleId(Integer aclModuleId);
 }

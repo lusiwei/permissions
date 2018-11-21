@@ -1,9 +1,6 @@
 package com.lusiwei.service;
 
 import com.lusiwei.dto.SysDeptDto;
-import com.lusiwei.pojo.SysUser;
-
-import java.util.List;
 
 /**
  * @Author: lusiwei
@@ -14,4 +11,5 @@ public interface SysDeptService {
     void insert(SysDeptDto sysDeptDto);
     void update(SysDeptDto sysDept);
 
+    boolean deleteById(Integer deptId);
 }

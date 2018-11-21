@@ -7,7 +7,7 @@ import com.lusiwei.pojo.SysRole;
 import com.lusiwei.service.RoleService;
 import com.lusiwei.util.BeanValidator;
 import com.lusiwei.util.IPUtils;
-import com.lusiwei.util.ThreadLocalCommon;
+import com.lusiwei.util.RequestHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +29,8 @@ public class RoleServiceImpl implements RoleService {
         checkName(roleDto.getName());
         SysRole sysRole=SysRole.builder().name(roleDto.getName()).type(roleDto.getType())
                 .status(roleDto.getStatus()).remark(roleDto.getRemark()).build();
-        sysRole.setOperator(ThreadLocalCommon.getSysUser().getUsername());
-        sysRole.setOperateIp(IPUtils.getIpAddress(ThreadLocalCommon.popHttpServletRequest()));
+        sysRole.setOperator(RequestHolder.getCurrentUser().getUsername());
+        sysRole.setOperateIp(IPUtils.getIpAddress(RequestHolder.getHttpServletRequest()));
         sysRole.setOperateTime(new Date());
         sysRoleMapper.insertSelective(sysRole);
     }
@@ -43,8 +43,8 @@ public class RoleServiceImpl implements RoleService {
         checkExist(roleDto.getId());
         SysRole sysRole=SysRole.builder().id(roleDto.getId()).name(roleDto.getName()).type(roleDto.getType())
                 .status(roleDto.getStatus()).remark(roleDto.getRemark()).build();
-        sysRole.setOperator(ThreadLocalCommon.getSysUser().getUsername());
-        sysRole.setOperateIp(IPUtils.getIpAddress(ThreadLocalCommon.popHttpServletRequest()));
+        sysRole.setOperator(RequestHolder.getCurrentUser().getUsername());
+        sysRole.setOperateIp(IPUtils.getIpAddress(RequestHolder.getHttpServletRequest()));
         sysRole.setOperateTime(new Date());
         sysRoleMapper.updateByPrimaryKeySelective(sysRole);
 

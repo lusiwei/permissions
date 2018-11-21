@@ -4,6 +4,7 @@ import com.lusiwei.pojo.SysUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface SysUserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -33,4 +34,8 @@ public interface SysUserMapper {
     List<SysUser> queryUnselectedUser(List<Integer> list);
 
     List<SysUser> querySelectedUser(List<Integer> list);
+
+    Set<SysUser> queryByUserIds(@Param("set") Set<Integer> userIdSet);
+
+    List<SysUser> queryUserByDeptId(Integer deptId);
 }

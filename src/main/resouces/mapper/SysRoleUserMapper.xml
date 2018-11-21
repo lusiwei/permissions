@@ -113,4 +113,13 @@
     <delete id="deleteByRoleId">
         delete from sys_role_user where role_id=#{roleId}
     </delete>
+    <!--根据roleId 查roleUserList-->
+    <select id="queryRoleUserByRoleId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_user where role_id
+        <foreach collection="set" item="item" open=" in(" close=")" separator="," index="index">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

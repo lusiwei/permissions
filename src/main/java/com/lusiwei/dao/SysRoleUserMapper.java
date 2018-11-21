@@ -1,8 +1,10 @@
 package com.lusiwei.dao;
 
 import com.lusiwei.pojo.SysRoleUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface SysRoleUserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -24,4 +26,6 @@ public interface SysRoleUserMapper {
     void deleteByRoleId(Integer roleId);
 
     void insertUserByRoleId(Integer roleId);
+
+    Set<SysRoleUser> queryRoleUserByRoleId(@Param("set") Set<Integer> roleIdSet);
 }

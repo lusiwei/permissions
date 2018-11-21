@@ -28,7 +28,7 @@
     delete from sys_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.lusiwei.pojo.SysUser">
+    <insert id="insert" parameterType="com.lusiwei.pojo.SysUser" useGeneratedKeys="true" keyProperty="id">
     insert into sys_user (id, username, telephone, 
       mail, password, dept_id, 
       status, remark, operator, 
@@ -38,7 +38,7 @@
       #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
       #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.lusiwei.pojo.SysUser">
+    <insert id="insertSelective" parameterType="com.lusiwei.pojo.SysUser" useGeneratedKeys="true" keyProperty="id">
         insert into sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -210,6 +210,20 @@
         <foreach collection="list" item="item" open=" in(" close=")" separator="," index="index">
             #{item}
         </foreach>
-
     </select>
+    <select id="queryByUserIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user where id
+        <foreach collection="set" item="item" open=" in(" close=")" separator="," index="index">
+            #{item}
+        </foreach>
+    </select>
+    <!--通过部门id查用户-->
+    <select id="queryUserByDeptId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user where dept_id=#{deptId}
+    </select>
+
 </mapper>

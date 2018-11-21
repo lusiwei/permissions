@@ -4,16 +4,18 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.lusiwei.dao.SysAclMapper;
 import com.lusiwei.dao.SysAclModuleMapper;
 import com.lusiwei.dto.SysAclModuleDto;
 import com.lusiwei.dto.SysAclModuleTreeDto;
 import com.lusiwei.exception.ParamException;
+import com.lusiwei.pojo.SysAcl;
 import com.lusiwei.pojo.SysAclModule;
 import com.lusiwei.service.SysAclModuleService;
 import com.lusiwei.util.BeanValidator;
 import com.lusiwei.util.IPUtils;
 import com.lusiwei.util.LevelUtil;
-import com.lusiwei.util.ThreadLocalCommon;
+import com.lusiwei.util.RequestHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -23,8 +25,15 @@ import java.util.*;
 
 @Service
 public class SysAclModuleServiceImpl implements SysAclModuleService {
+    private final SysAclModuleMapper sysAclModuleMapper;
+    private final SysAclMapper sysAclMapper;
+
     @Autowired
-    private SysAclModuleMapper sysAclModuleMapper;
+    public SysAclModuleServiceImpl(SysAclModuleMapper sysAclModuleMapper, SysAclMapper sysAclMapper) {
+        this.sysAclModuleMapper = sysAclModuleMapper;
+        this.sysAclMapper = sysAclMapper;
+    }
+
     @Override
     public void insert(SysAclModuleDto sysAclModuleDto) {
         //校验数据
@@ -40,9 +49,9 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
         sysAclModule.setLevel(LevelUtil.getLevel(getParentLevel(sysAclModuleDto.getParentId()),sysAclModuleDto.getParentId()));
 
             //操作人 TODO:得从session与request拿
-        sysAclModule.setOperator(ThreadLocalCommon.getSysUser().getUsername());
+        sysAclModule.setOperator(RequestHolder.getCurrentUser().getUsername());
         sysAclModule.setOperateTime(new Date());
-        sysAclModule.setOperateIp(IPUtils.getIpAddress(ThreadLocalCommon.popHttpServletRequest()));
+        sysAclModule.setOperateIp(IPUtils.getIpAddress(RequestHolder.getHttpServletRequest()));
         sysAclModuleMapper.insertSelective(sysAclModule);
 
     }
@@ -81,9 +90,9 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
             //获得父类的level  父类的id为1  父类的lever  0    0-1
             after.setLevel(LevelUtil.getLevel(getParentLevel(sysAclModuleDto.getParentId()),sysAclModuleDto.getParentId()));
             //操作人 TODO:得从session与request拿
-            after.setOperator(ThreadLocalCommon.getSysUser().getUsername());
+            after.setOperator(RequestHolder.getCurrentUser().getUsername());
             after.setOperateTime(new Date());
-            after.setOperateIp(IPUtils.getIpAddress(ThreadLocalCommon.popHttpServletRequest()));
+            after.setOperateIp(IPUtils.getIpAddress(RequestHolder.getHttpServletRequest()));
             updateWithChild(before,after,sysAclModuleDto.getId());
     }
 
@@ -115,7 +124,7 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
         for (SysAclModule sysAclModule : sysAclModuleList) {
             //转换为树dto
             sysAclModuleTreeDto = SysAclModuleTreeDto.getSysAclModuleTreeDto(sysAclModule);
-            if(sysAclModuleTreeDto.getLevel().equals(LevelUtil.ROOT_LEVEL)){//最高一级
+            if(sysAclModuleTreeDto.getLevel().equals(LevelUtil.ROOT_LEVEL)){
                 rootList.add(sysAclModuleTreeDto);
             }
             multimap.put(sysAclModuleTreeDto.getLevel(),sysAclModuleTreeDto);
@@ -124,6 +133,24 @@ public class SysAclModuleServiceImpl implements SysAclModuleService {
         Collections.sort(rootList,comparator);
         getAclModuleTree(rootList,multimap);
         return rootList;
+    }
+
+    @Override
+    public boolean deleteByAclId(Integer aclModuleId) {
+        if (!checkHasAcl(aclModuleId)) {
+            sysAclModuleMapper.deleteByPrimaryKey(aclModuleId);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkHasAcl(Integer aclModuleId) {
+        List<SysAcl> sysAclList=sysAclMapper.queryAclByAclModuleId(aclModuleId);
+        if (CollectionUtils.isEmpty(sysAclList)) {
+            return false;
+        }
+        return true;
+
     }
 
     private void getAclModuleTree(List<SysAclModuleTreeDto> rootList, Multimap<String,SysAclModuleTreeDto> multimap) {

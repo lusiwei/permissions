@@ -2,6 +2,7 @@ package com.lusiwei.service.impl;
 
 import com.google.common.base.Preconditions;
 import com.lusiwei.dao.SysDeptMapper;
+import com.lusiwei.dao.SysUserMapper;
 import com.lusiwei.dto.SysDeptDto;
 import com.lusiwei.exception.ParamException;
 import com.lusiwei.pojo.SysDept;
@@ -9,6 +10,7 @@ import com.lusiwei.pojo.SysUser;
 import com.lusiwei.service.SysDeptService;
 import com.lusiwei.util.BeanValidator;
 import com.lusiwei.util.LevelUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +19,19 @@ import java.util.List;
 
 /**
  * @Author: lusiwei
- * @Date: 2018/11/2 10:59
- * @Description:
+ * @date: 2018/11/2 10:59
+ * @description: 部门业务层
  */
 @Service
 public class SysDeptServiceImpl implements SysDeptService {
 
     private final SysDeptMapper sysDeptMapper;
+    private final SysUserMapper sysUserMapper;
 
     @Autowired
-    public SysDeptServiceImpl(SysDeptMapper sysDeptMapper) {
+    public SysDeptServiceImpl(SysDeptMapper sysDeptMapper, SysUserMapper sysUserMapper) {
         this.sysDeptMapper = sysDeptMapper;
+        this.sysUserMapper = sysUserMapper;
     }
 
     @Override
@@ -83,13 +87,33 @@ public class SysDeptServiceImpl implements SysDeptService {
 
     }
 
+    /**
+     * 删除部门
+     *
+     * @param deptId 部门id
+     */
+    @Override
+    public boolean deleteById(Integer deptId) {
+        //判断部门下是否有用户，如果有则不能删除，如果没有就可以删除
+        if (!checkHasUser(deptId)) {
+            sysDeptMapper.deleteByPrimaryKey(deptId);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkHasUser(Integer deptId) {
+        List<SysUser> sysUserList=sysUserMapper.queryUserByDeptId(deptId);
+        return !CollectionUtils.isEmpty(sysUserList);
+    }
+
 
     private void updateWithChild(SysDept oldDeptInfo, SysDept newDeptInfo, Integer id) {
         String oldLevel = oldDeptInfo.getLevel();
         String newLevel = newDeptInfo.getLevel();
         //如果修改了level
         if (!oldLevel.equals(newLevel)) {
-            sysDeptMapper.updateChildLevel(oldLevel,newLevel,id);
+            sysDeptMapper.updateChildLevel(oldLevel, newLevel, id);
         }
         sysDeptMapper.updateByPrimaryKey(newDeptInfo);
     }

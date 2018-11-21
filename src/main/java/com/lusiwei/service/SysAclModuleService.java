@@ -12,4 +12,6 @@ public interface SysAclModuleService {
     void update(SysAclModuleDto sysAclModuleDto);
 
     List<SysAclModuleTreeDto> sysAclModuleTree();
+
+    boolean deleteByAclId(Integer aclId);
 }

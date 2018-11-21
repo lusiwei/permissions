@@ -2,6 +2,7 @@ package com.lusiwei.service.impl;
 
 import com.lusiwei.common.PageCommon;
 import com.lusiwei.dao.SysAclMapper;
+import com.lusiwei.dao.SysRoleMapper;
 import com.lusiwei.pojo.SysAcl;
 import com.lusiwei.service.SysAclService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-
 @Service
 public class SysAclServiceImpl implements SysAclService {
+    private final SysAclMapper sysAclMapper;
+    private final SysRoleMapper sysRoleMapper;
+
     @Autowired
-    private SysAclMapper sysAclMapper;
+    public SysAclServiceImpl(SysAclMapper sysAclMapper, SysRoleMapper sysRoleMapper) {
+        this.sysAclMapper = sysAclMapper;
+        this.sysRoleMapper = sysRoleMapper;
+    }
+
     @Override
     public PageCommon<SysAcl> queryAclByModuleId(Integer aclModuleId, Integer pageSize, Integer pageNo) {
         pageSize = pageSize==null || pageSize<5 ?5:pageSize;
@@ -36,4 +43,6 @@ public class SysAclServiceImpl implements SysAclService {
 
         return pageCommon;
     }
+
+
 }

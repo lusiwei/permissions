@@ -4,6 +4,15 @@
     <title>权限</title>
     <jsp:include page="/common/backend_common.jsp"/>
     <jsp:include page="/common/page.jsp"/>
+    <style>
+        h4{
+            border-bottom: 1px solid #e5e5e5;
+            padding: 15px;
+        }
+        .modal-header{
+            border-bottom: 0px;
+        }
+    </style>
 </head>
 <body class="no-skin" youdao="bind" style="background: white">
 <input id="gritter-light" checked="" type="checkbox" class="ace ace-switch ace-switch-5"/>
@@ -42,7 +51,8 @@
                         <div class="col-xs-6">
                             <div class="dataTables_length" id="dynamic-table_length"><label>
                                 展示
-                                <select id="pageSize" name="dynamic-table_length" aria-controls="dynamic-table" class="form-control input-sm">
+                                <select id="pageSize" name="dynamic-table_length" aria-controls="dynamic-table"
+                                        class="form-control input-sm">
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
@@ -51,7 +61,8 @@
                             </div>
                         </div>
                     </div>
-                    <table id="dynamic-table" class="table table-striped table-bordered table-hover dataTable no-footer" role="grid"
+                    <table id="dynamic-table" class="table table-striped table-bordered table-hover dataTable no-footer"
+                           role="grid"
                            aria-describedby="dynamic-table_info" style="font-size:14px">
                         <thead>
                         <tr role="row">
@@ -97,11 +108,13 @@
             </tr>
             <tr>
                 <td><label for="aclModuleName">名称</label></td>
-                <td><input type="text" name="name" id="aclModuleName" value="" class="text ui-widget-content ui-corner-all"></td>
+                <td><input type="text" name="name" id="aclModuleName" value=""
+                           class="text ui-widget-content ui-corner-all"></td>
             </tr>
             <tr>
                 <td><label for="aclModuleSeq">顺序</label></td>
-                <td><input type="text" name="seq" id="aclModuleSeq" value="1" class="text ui-widget-content ui-corner-all"></td>
+                <td><input type="text" name="seq" id="aclModuleSeq" value="1"
+                           class="text ui-widget-content ui-corner-all"></td>
             </tr>
             <tr>
                 <td><label for="aclModuleStatus">状态</label></td>
@@ -115,7 +128,8 @@
             </tr>
             <tr>
                 <td><label for="aclModuleRemark">备注</label></td>
-                <td><textarea name="remark" id="aclModuleRemark" class="text ui-widget-content ui-corner-all" rows="3" cols="25"></textarea></td>
+                <td><textarea name="remark" id="aclModuleRemark" class="text ui-widget-content ui-corner-all" rows="3"
+                              cols="25"></textarea></td>
             </tr>
         </table>
     </form>
@@ -126,13 +140,15 @@
             <tr>
                 <td style="width: 80px;"><label for="parentId">所属权限模块</label></td>
                 <td>
-                    <select id="aclModuleSelectId" name="aclModuleId" data-placeholder="选择权限模块" style="width: 200px;"></select>
+                    <select id="aclModuleSelectId" name="aclModuleId" data-placeholder="选择权限模块"
+                            style="width: 200px;"></select>
                 </td>
             </tr>
             <tr>
                 <td><label for="aclName">名称</label></td>
                 <input type="hidden" name="id" id="aclId"/>
-                <td><input type="text" name="name" id="aclName" value="" class="text ui-widget-content ui-corner-all"></td>
+                <td><input type="text" name="name" id="aclName" value="" class="text ui-widget-content ui-corner-all">
+                </td>
             </tr>
             <tr>
                 <td><label for="aclType">类型</label></td>
@@ -146,7 +162,8 @@
             </tr>
             <tr>
                 <td><label for="aclUrl">URL</label></td>
-                <td><input type="text" name="url" id="aclUrl" value="1" class="text ui-widget-content ui-corner-all"></td>
+                <td><input type="text" name="url" id="aclUrl" value="1" class="text ui-widget-content ui-corner-all">
+                </td>
             </tr>
             <tr>
                 <td><label for="aclStatus">状态</label></td>
@@ -159,16 +176,40 @@
             </tr>
             <tr>
                 <td><label for="aclSeq">顺序</label></td>
-                <td><input type="text" name="seq" id="aclSeq" value="" class="text ui-widget-content ui-corner-all"></td>
+                <td><input type="text" name="seq" id="aclSeq" value="" class="text ui-widget-content ui-corner-all">
+                </td>
             </tr>
             <tr>
                 <td><label for="aclRemark">备注</label></td>
-                <td><textarea name="remark" id="aclRemark" class="text ui-widget-content ui-corner-all" rows="3" cols="25"></textarea></td>
+                <td><textarea name="remark" id="aclRemark" class="text ui-widget-content ui-corner-all" rows="3"
+                              cols="25"></textarea></td>
             </tr>
         </table>
     </form>
 </div>
-
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    拥有该权限点的角色有：
+                </h4>
+            </div>
+            <div class="modal-body">
+                按下 ESC 按钮退出。
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <script id="aclModuleListTemplate" type="x-tmpl-mustache">
 <ol class="dd-list ">
     {{#aclModuleList}}
@@ -192,6 +233,8 @@
         </li>
     {{/aclModuleList}}
 </ol>
+
+
 </script>
 
 <script id="aclListTemplate" type="x-tmpl-mustache">
@@ -215,10 +258,12 @@
     </td>
 </tr>
 {{/aclList}}
+
+
 </script>
 
 <script type="text/javascript">
-    $(function() {
+    $(function () {
         let aclModuleList; // 存储树形权限模块列表
         let aclModuleMap = {}; // 存储map格式权限模块信息
         let aclMap = {}; // 存储map格式的权限点信息
@@ -235,8 +280,8 @@
         function loadAclModuleTree() {
             $.ajax({
                 url: "/sys/aclModule/fullTree.json",
-                success : function (result) {
-                    if(result.result) {
+                success: function (result) {
+                    if (result.result) {
                         aclModuleList = result.data;
                         let rendered = Mustache.render(aclModuleListTemplate, {
                             aclModuleList: result.data,
@@ -263,15 +308,15 @@
             $("#dialog-aclModule-form").dialog({
                 model: true,
                 title: "新增权限模块",
-                open: function(event, ui) {
+                open: function (event, ui) {
                     $(".ui-dialog-titlebar-close", $(this).parent()).hide();
                     optionStr = "<option value=\"0\">-</option>";
                     recursiveRenderAclModuleSelect(aclModuleList, 1);
                     $("#aclModuleForm")[0].reset();
                     $("#parentId").html(optionStr);
                 },
-                buttons : {
-                    "添加": function(e) {
+                buttons: {
+                    "添加": function (e) {
                         e.preventDefault();
                         updateAclModule(true, function (data) {
                             $("#dialog-aclModule-form").dialog("close");
@@ -285,12 +330,13 @@
                 }
             });
         });
+
         function updateAclModule(isCreate, successCallback, failCallback) {
             $.ajax({
                 url: isCreate ? "/sys/aclModule/insert.json" : "/sys/aclModule/update.json",
                 data: $("#aclModuleForm").serializeArray(),
                 type: 'POST',
-                success: function(result) {
+                success: function (result) {
                     if (result.result) {
                         loadAclModuleTree();
                         if (successCallback) {
@@ -310,7 +356,7 @@
                 url: isCreate ? "/sys/acl/insert.json" : "/sys/acl/update.json",
                 data: $("#aclForm").serializeArray(),
                 type: 'POST',
-                success: function(result) {
+                success: function (result) {
                     if (result.result) {
                         loadAclList(lastClickAclModuleId);
                         if (successCallback) {
@@ -332,12 +378,15 @@
                     aclModuleMap[aclModule.id] = aclModule;
                     let blank = "";
                     if (level > 1) {
-                        for(let j = 3; j <= level; j++) {
+                        for (let j = 3; j <= level; j++) {
                             blank += "..";
                         }
                         blank += "∟";
                     }
-                    optionStr += Mustache.render("<option value='{{id}}'>{{name}}</option>", {id: aclModule.id, name: blank + aclModule.name});
+                    optionStr += Mustache.render("<option value='{{id}}'>{{name}}</option>", {
+                        id: aclModule.id,
+                        name: blank + aclModule.name
+                    });
                     if (aclModule.list && aclModule.list.length > 0) {
                         recursiveRenderAclModuleSelect(aclModule.list, level + 1);
                     }
@@ -370,17 +419,17 @@
 
         function bindAclModuleClick() {
             $(".sub-aclModule").click(function (e) {
-               e.preventDefault();
-               e.stopPropagation();
-               $(this).parent().parent().parent().children().children(".aclModule-name").toggleClass("hidden");
-               if($(this).is(".fa-angle-double-down")) {
-                   $(this).removeClass("fa-angle-double-down").addClass("fa-angle-double-up");
-               } else{
-                   $(this).removeClass("fa-angle-double-up").addClass("fa-angle-double-down");
-               }
+                e.preventDefault();
+                e.stopPropagation();
+                $(this).parent().parent().parent().children().children(".aclModule-name").toggleClass("hidden");
+                if ($(this).is(".fa-angle-double-down")) {
+                    $(this).removeClass("fa-angle-double-down").addClass("fa-angle-double-up");
+                } else {
+                    $(this).removeClass("fa-angle-double-up").addClass("fa-angle-double-down");
+                }
             });
 
-            $(".aclModule-name").click(function(e) {
+            $(".aclModule-name").click(function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 let aclModuleId = $(this).attr("data-id");
@@ -410,14 +459,14 @@
                 }
             });
 
-            $(".aclModule-edit").click(function(e) {
+            $(".aclModule-edit").click(function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 let aclModuleId = $(this).attr("data-id");
                 $("#dialog-aclModule-form").dialog({
                     model: true,
                     title: "编辑权限模块",
-                    open: function(event, ui) {
+                    open: function (event, ui) {
                         $(".ui-dialog-titlebar-close", $(this).parent()).hide();
                         optionStr = "<option value=\"0\">-</option>";
                         recursiveRenderAclModuleSelect(aclModuleList, 1);
@@ -433,8 +482,8 @@
                             $("#aclModuleStatus").val(targetAclModule.status);
                         }
                     },
-                    buttons : {
-                        "更新": function(e) {
+                    buttons: {
+                        "更新": function (e) {
                             e.preventDefault();
                             updateAclModule(false, function (data) {
                                 $("#dialog-aclModule-form").dialog("close");
@@ -468,7 +517,7 @@
             let url = "/sys/acl/page.json?aclModuleId=" + aclModuleId;
             let pageNo = $("#aclPage .pageNo").val() || 1;
             $.ajax({
-                url : url,
+                url: url,
                 data: {
                     pageSize: pageSize,
                     pageNo: pageNo
@@ -480,25 +529,25 @@
         }
 
         function renderAclListAndPage(result, url) {
-            if(result.result) {
-                if (result.data.totalCount > 0){
+            if (result.result) {
+                if (result.data.totalCount > 0) {
                     let rendered = Mustache.render(aclListTemplate, {
                         aclList: result.data.pageList,
                         "showAclModuleName": function () {
                             return aclModuleMap[this.aclModuleId].name;
                         },
-                        "showStatus": function() {
-                            return this.status == 1 ? "有效": "无效";
+                        "showStatus": function () {
+                            return this.status == 1 ? "有效" : "无效";
                         },
-                        "showType": function() {
+                        "showType": function () {
                             return this.type == 1 ? "菜单" : (this.type == 2 ? "按钮" : "其他");
                         },
-                        "bold": function() {
-                            return function(text, render) {
+                        "bold": function () {
+                            return function (text, render) {
                                 let status = render(text);
                                 if (status == '有效') {
                                     return "<span class='label label-sm label-success'>有效</span>";
-                                } else if(status == '无效') {
+                                } else if (status == '无效') {
                                     return "<span class='label label-sm label-warning'>无效</span>";
                                 } else {
                                     return "<span class='label'>删除</span>";
@@ -508,7 +557,7 @@
                     });
                     $("#aclList").html(rendered);
                     bindAclClick();
-                    $.each(result.data.pageList, function(i, acl) {
+                    $.each(result.data.pageList, function (i, acl) {
                         aclMap[acl.id] = acl;
                     })
                 } else {
@@ -529,27 +578,38 @@
                 e.stopPropagation();
                 let aclId = $(this).attr("data-id");
                 $.ajax({
-                    url: "/sys/acl/acls.json",
+                    url: "/sys/acl/aclRoles.json",
                     data: {
                         aclId: aclId
                     },
-                    success: function(result) {
+                    success: function (result) {
                         if (result.result) {
                             console.log(result)
+                            $("#myModal").modal("show");
+                            let roleNameList = result.data;
+                            let str = "";
+                            for (let i of roleNameList.sysRoleSet) {
+                                str += "<li>" + i.name + "</li>";
+                            }
+                            str = str + "<h4>拥有该权限点的用户有：</h4>"
+                            for (let i of roleNameList.sysUserSet) {
+                                str += "<li>" + i.username + "</li>";
+                            }
+                            $("#myModal .modal-body").html(str);
                         } else {
                             showMessage("获取权限点分配的用户和角色", result.message, false);
                         }
                     }
                 })
             });
-            $(".acl-edit").click(function(e) {
+            $(".acl-edit").click(function (e) {
                 e.preventDefault();
                 e.stopPropagation();
                 let aclId = $(this).attr("data-id");
                 $("#dialog-acl-form").dialog({
                     model: true,
                     title: "编辑权限",
-                    open: function(event, ui) {
+                    open: function (event, ui) {
                         $(".ui-dialog-titlebar-close", $(this).parent()).hide();
                         optionStr = "";
                         recursiveRenderAclModuleSelect(aclModuleList, 1);
@@ -567,8 +627,8 @@
                             $("#aclRemark").val(targetAcl.remark);
                         }
                     },
-                    buttons : {
-                        "更新": function(e) {
+                    buttons: {
+                        "更新": function (e) {
                             e.preventDefault();
                             updateAcl(false, function (data) {
                                 $("#dialog-acl-form").dialog("close");
@@ -584,19 +644,19 @@
             })
         }
 
-        $(".acl-add").click(function() {
+        $(".acl-add").click(function () {
             $("#dialog-acl-form").dialog({
                 model: true,
                 title: "新增权限",
-                open: function(event, ui) {
+                open: function (event, ui) {
                     $(".ui-dialog-titlebar-close", $(this).parent()).hide();
                     optionStr = "";
                     recursiveRenderAclModuleSelect(aclModuleList, 1);
                     $("#aclForm")[0].reset();
                     $("#aclModuleSelectId").html(optionStr);
                 },
-                buttons : {
-                    "添加": function(e) {
+                buttons: {
+                    "添加": function (e) {
                         e.preventDefault();
                         updateAcl(true, function (data) {
                             $("#dialog-acl-form").dialog("close");

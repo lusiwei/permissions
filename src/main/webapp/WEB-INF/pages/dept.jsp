@@ -181,6 +181,29 @@
         <li><a href="#" id="last">尾页</a></li>
     </ul>
 </nav>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    该用户拥有的权限有：
+                </h4>
+            </div>
+            <div class="modal-body">
+                按下 ESC 按钮退出。
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default"
+                        data-dismiss="modal">关闭
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script id="deptListTemplate" type="x-tmpl-mustache">
 <ol class="dd-list">
@@ -201,6 +224,7 @@
         </li>
     {{/deptList}}
 </ol>
+
 
 
 </script>
@@ -224,6 +248,7 @@
     </td>
 </tr>
 {{/userList}}
+
 
 </script>
 
@@ -292,7 +317,7 @@
                                     "                                    <a class=\"green user-edit\" href=\"#\" data-id=\"" + i.id + "\">\n" +
                                     "                                        <i class=\"ace-icon fa fa-pencil bigger-100\"></i>\n" +
                                     "                                    </a>\n" +
-                                    "                                    <a class=\"red user-acl\" href=\"#\" data-id=\"" + i.id + "\">\n" +
+                                    "                                    <a class=\"red user-acl\" href=\"#\" data-target=\"#myModal\" data-id=\"" + i.id + "\">\n" +
                                     "                                        <i class=\"ace-icon fa fa-flag bigger-100\"></i>\n" +
                                     "                                    </a>\n" +
                                     "                                </div>\n" +
@@ -540,6 +565,13 @@
                     success: function (result) {
                         if (result.result) {
                             console.log(result)
+                            $("#myModal").modal("show");
+                            let aclNameList = result.data;
+                            let str = "";
+                            for (let i of aclNameList) {
+                                str += "<li>" + i + "</li>";
+                            }
+                            $("#myModal .modal-body").html(str);
                         } else {
                             showMessage("获取用户权限数据", result.msg, false);
                         }

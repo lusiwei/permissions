@@ -1,6 +1,6 @@
 package com.lusiwei.interceptor;
 
-import com.lusiwei.util.ThreadLocalCommon;
+import com.lusiwei.util.RequestHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -29,7 +29,7 @@ public class TestInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         log.info("afterCompletion 执行了");
-        ThreadLocalCommon.removeHttpServletRequest();
-        ThreadLocalCommon.removeSysUser();
+        RequestHolder.removeHttpServletRequest();
+        RequestHolder.removeSysUser();
     }
 }
